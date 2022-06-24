@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block css %}
+
+    <style>
+        h1{
+            text-align: center;
+        }
+        a{
+            color: black;
+            text-decoration: none;
+        }
+        a:hover{
+            color:black
+        }
+        .card-title{
+            font-size: 1.2em;
+            font-weight: lighter;
+        }
+        @media screen and (min-width: 750px) {
+            .card {
+                width: 45%;
+            }
+        }
+        @media screen and (min-width: 1200px) {
+            .card {
+                width: 30%;
+            }
+        }
+    </style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="px-3 mt-2 mb-4 m-auto col-11">
+
+    <h1 class='display-5 mb-4'>{% if category_name %}{{category_name}}{% else %}All Coffees{% endif %}</h1>
+    <div class="row row-cols-md-3">
+        {% for coffee in coffee_list %}
+            <div class="card mx-3 mb-3" style="border:none;">
+                <img class="card-img-top" src="{{coffee.image.url}}" alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text card-title"><a href="{% url 'coffees:coffee_detail' pk=coffee.pk %}" class="stretched-link">{{coffee.name}}</a></p>
+                    <p class="card-text fw-bold">${{coffee.price|floatformat:2}}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

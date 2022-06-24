@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block css %}
+
+<style>
+.popoverContent{
+    font-size: 12px;
+    margin: 0%;
+    padding-left: 5%;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="px-3 py-4 my-4 m-auto bg-light rounded-3 col-md-6 col-10 text-black SignUpJumbotron">
+    <div class="container-fluid py-2">
+        <h1 class="display-5">Create Account</h1>
+    
+        {% if form.errors %}
+            {% for field, error in form.errors.items %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        {%  endif %}        
+
+        <form method="POST">
+            {% csrf_token %}
+            <p>{{ form.username }}</p>
+            <p>{{ form.first_name }}</p>
+            <p>{{ form.last_name }}</p>
+            <p>{{ form.email }}</p>
+            <p id="password1">{{ form.password1 }}</p>
+            <p id="password2">{{ form.password2 }}</p>
+            
+            <input type="submit" id="submitButton" class="btn btn-dark my-3" value="Submit"> 
+
+        </form>
+    </div>
+</div>
+
+<!-- Enabling Popovers -->
+
+<script>
+    $(document).ready(function(){
+        $('#password1').popover({
+            html:true,
+            placement: 'right',
+            content: '<ul class="popoverContent">\
+                <li>Your password can’t be too similar to your other personal information.</li>\
+                <li>Your password must contain at least 8 characters.</li>\
+                <li>Your password can’t be a commonly used password.</li>\
+                <li>Your password can’t be entirely numeric.</li>\
+                    </ul>',
+            trigger: 'focus'
+        }
+        );   
+    });
+
+    $(document).ready(function(){
+        $('#password2').popover({
+            html:true,
+            placement: 'right',
+            content: '<p class="popoverContent">Enter the same password as before, for verification.</p>',
+            trigger: 'focus'
+        }
+        );   
+    });
+</script>
+
+{% endblock %}

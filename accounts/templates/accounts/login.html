@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="px-3 py-4 my-5 m-auto rounded-3 col-sm-10 text-white logInJumbotron">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold">Log In</h1>
+          <h4>Enter your email and password below to log in</h4>
+        </div>
+    </div>
+    <div class="m-auto col-sm-10">
+        <div class="container-fluid">
+        
+        {% if form.errors %}
+            {% for field, error in form.errors.items %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        {%  endif %} 
+
+        <form method="POST">
+            <div>
+                {% csrf_token %}
+                <p class="my-1">Username</p>
+                <p class="mb-3">{{ form.username }}</p>
+                <p class="my-1">Password</p> 
+                <p class="my-1">{{ form.password }} </p>
+            </div>
+    
+            <input type="submit" id="submitButton" class="btn btn-dark my-3" value="Login"> 
+            <p class="text-muted">Don't have an account yet? <a class='ml-2' href="{% url 'accounts:signup' %}">Sign Up</a></p>
+        </form>
+        </div>
+    </div>
+
+{% endblock %}

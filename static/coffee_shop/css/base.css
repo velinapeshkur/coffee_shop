@@ -1,0 +1,101 @@
+html, body{
+    font-family: 'Rajdhani', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar{
+    font-size: 23px;
+    height: 100px;
+    position: sticky;
+}
+
+.nav-link{
+    opacity: 0.80;
+}
+
+.nav-link:hover{
+    opacity: 1;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; 
+ }
+
+ .dropdown-menu[data-bs-popper]{
+    left: inherit;
+ }
+
+.navbar a{
+    width:auto;
+}
+
+.navbar.scrolled .loginNavButton{
+    background-color: transparent !important;
+    color:black;
+    opacity: 0.80;
+}
+
+#brandName{
+    font-size: 3.5em;
+    text-align: center;
+    font-family: 'IM Fell DW Pica', serif;
+}
+
+
+.errorlist{
+    margin-bottom:0%;
+}
+
+.mainPageIMG{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.coffeeName{
+    text-align: left;
+}
+
+.logInJumbotron{
+    background-image: url(../images/login_background.jpeg);
+    background-size: cover;
+}
+
+#submitButton{
+    background-color: #4f3025;
+    width: 90px;
+    height: 45px;
+    border-radius: 7px;
+    font-size: 20px;
+    color: #F1FAEE;
+    cursor: pointer;
+    text-align: center;
+}
+
+.loginNavButton{
+    background-color: rgb(248, 187, 5);
+    width: 95px;
+    height: 50px;
+    border-radius: 7px;
+    color: #F1FAEE;
+    cursor: pointer;
+    font-size: 23px;
+}
+
+#copyrightLink{
+    color: #6e777f;
+    text-decoration: none;
+}
+
+#Events{
+    text-align: center;
+}
+
+
+table{
+    font-size: 1.2em;
+    width: 80%;
+}

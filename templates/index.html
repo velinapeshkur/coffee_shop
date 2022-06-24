@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <!-- Company Description and Images -->
+
+    <div class="px-3 mb-4 m-auto col-lg-6">
+          <h1 id="brandName" class="mt-3 mb-5">UE COFFEE ROASTERS</h1>
+          <img class="img-fluid mainPageIMG" src="{% static 'coffee_shop/images/about_2.jpg' %}">
+  
+          <h1 class="display-5 mt-5">About Us</h1>
+  
+          <p>We are an independently owned and family run business, forever curious and ready to transform the way coffee is served.</p>
+          <p>Established by Dominic and Daniella Boyett in 2009, the mission was to offer great coffee whilst making it accessible to everyone. We have dedicated the last decade and more to learning, working hard, and building more than just another coffee brand. Ue Coffee Roasters is more than the sum of its parts, we have learned that it takes a team with passion and determination in the pursuit of excellence to make a company great.</p>
+          <p class="fw-bold">Let’s put it down to experience</p>
+          <p>Whether it is the experience had by the customers, in our own retail stores through to our wholesale partners, or the that of our team. Experience is something we cherish and harness to be the best we can be. It takes time and considerable training to learn how to get the best from coffee, to understand the roasting process, the science and to be able to offer first-rate support to our customers.</p>
+  
+          <img class="img-fluid my-4 mainPageIMG" src="{% static 'coffee_shop/images/about_1.jpg' %}">
+          <p class="fw-bold">Cogs in a well-oiled machine</p>
+          <p>We believe our people are far from cogs. We cultivate talent and place importance in honing the skills and craft in each member of our team. This helps serve both our customers and trade partners and shows in everything we produce through to our values.</p>
+          <p class="fw-bold">What is in the box!?</p>
+          <p>It is more than great speciality coffee, after all we are too busy thinking far outside the usual constraints.</p>
+          <p>A great deal of work is involved in sourcing speciality grade and experimental micro-lot coffees and ensuring that we buy both ethically and sustainably from growers with direct longstanding trading relationships.</p>
+          <p>It is our responsibility to honour the hard work already invested in the coffee by roasting it to showcase its distinctive qualities. Roasting is one of the most delicate and critical parts of the process that leads to a great cup of coffee. We want to ensure that we focus on showcasing what makes a particular variety, origin or farm so thrilling.</p>    
+    </div>
+
+{% endblock %}

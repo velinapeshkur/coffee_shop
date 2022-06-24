@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid px-3 mb-4">
+    <div class="row">
+        <div class="col-lg-6 col-sm-10">
+            <img class="img-fluid" src="{{coffee.image.url}}">
+        </div>
+        <div class="col-lg-5 col-sm-10 coffeeName mx-2 mt-2 pt-5">
+            <h1 class="display-4 mb-3">{{coffee.name}}</h2>
+            <h4 class="fw-bold">{{coffee.notes}}</h4>
+            <p class="fw-light">Country: {{coffee.country}}</p>
+            <p class="fw-light">Region: {{coffee.region}}</p>
+            <p class="fw-light">Altitude: {{coffee.altitude}}</p>
+            <p>{{coffee.description}}</p>
+            <p class="fw-bold">${{coffee.price|floatformat:2}}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
