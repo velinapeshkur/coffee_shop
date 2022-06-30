@@ -33,28 +33,6 @@
                 </tr>
             </table>
             <input type="submit" id="submitButton" name="profile_info_sub" class="btn btn-dark my-3" value="Save" style="display: block; margin-right:0; margin-left:auto;">
-
-            <h3 class="fw-light">Shipping Address</h3>
-            <hr>
-            <table class="table table-borderless">
-                <tr>
-                    <td>Street</td>
-                    <td><input class="form-control"></td>
-                </tr>
-                <tr>
-                    <td>Postal Code</td>
-                    <td><input class="form-control"></td>
-                </tr>
-                <tr>
-                    <td>City</td>
-                    <td><input class="form-control"></td>
-                </tr>
-                <tr>
-                    <td>Country</td>
-                    <td><input class="form-control"></td>
-                </tr>
-            </table>
-            <input type="submit" id="submitButton" name="ship_address_sub" class="btn btn-dark my-3" value="Save" style="display: block; margin-right:0; margin-left:auto;">
         </form>
 
         <form method="POST" action="{% url 'accounts:password_change' pk=user.pk %}">

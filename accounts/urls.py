@@ -10,5 +10,5 @@ urlpatterns = [
     path('signup/', views.sign_up, name='signup'),
     path('<int:pk>/update/', views.UpdateProfileView.as_view(), name='update'),
     path('<int:pk>/delete/', views.DeleteProfileView.as_view(), name='delete'),
-    path('<int:pk>/password/', views.UpdatePassword.as_view(), name='password_change')
+    path('<int:pk>/password/', views.UpdatePassword.as_view(), name='password_change'),
 ]

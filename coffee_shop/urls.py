@@ -25,7 +25,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('coffees/', include('coffees.urls', namespace='coffees')),
-
+    path('cart/', include('cart.urls', namespace='cart')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
