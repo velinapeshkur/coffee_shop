@@ -1,8 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <!-- Displaying Django messages -->
 
-    <div class="container-fluid col-md-6 my-3">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-dismissible {{ message.tags }}">
+            <button type="button" class="btn-close me-auto" data-dismiss="alert" aria-label="Close">
+            </button>
+          <strong>{{message}}</strong>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="container-fluid col-11 col-lg-6 my-3">
         
         <div style="text-align:center;">
             {{ request.session.large_avatar | safe }}

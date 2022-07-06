@@ -23,13 +23,26 @@ MEDIA_DIR = BASE_DIR / 'media'
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-uue-8ndjkesx0j3c7++=yk4b(p1+*#q*eyx=)*a6hz6@ja&+h*'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+import environ
+
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+environ.Env.read_env()
+DEBUG = env('DEBUG')
+SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = []
 
+# SMTP Configuration
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 # Application definition
 
@@ -45,6 +58,7 @@ INSTALLED_APPS = [
     'coffees',
     'shop',
     'cart',
+    'coupons',
 ]
 
 CART_SESSION_ID = 'cart'
@@ -149,15 +163,15 @@ MEDIA_URL = '/media/'
 
 # Messages
 
-from django.contrib.messages import constants as messages
+# from django.contrib.messages import constants as messages
 
-MESSAGE_TAGS = {
-        messages.DEBUG: 'alert-secondary',
-        messages.INFO: 'alert-info',
-        messages.SUCCESS: 'alert-success',
-        messages.WARNING: 'alert-warning',
-        messages.ERROR: 'alert-danger',
-}
+# MESSAGE_TAGS = {
+#         messages.DEBUG: 'alert-secondary',
+#         messages.INFO: 'alert-info',
+#         messages.SUCCESS: 'alert-success',
+#         messages.WARNING: 'alert-warning',
+#         messages.ERROR: 'alert-danger',
+# }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

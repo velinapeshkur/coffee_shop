@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Categories(models.Model):
@@ -19,6 +20,9 @@ class Coffee(models.Model):
     amount = models.IntegerField(default=0)
     description = models.CharField(max_length=3000)
     image = models.ImageField(null=True, upload_to='coffees')
+
+    def out_of_stock(self):
+        return self.amount == 0
 
     def __str__(self):
         return self.name

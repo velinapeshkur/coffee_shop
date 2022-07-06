@@ -12,18 +12,67 @@
     font-size: 15px;
     margin-right: 12px;
 }
+
+  .search-form{
+    margin-right: 27px;
+    margin-top: 7px;
+    border: none;
+    border-bottom: 0.7px solid black;
+  }
+
+  @media (max-width: 700px) {
+    .navbar{
+      font-size: 15px;
+    }
+    .nav-item li{
+      font-size: 15px;
+    }
+    .cart-login svg{
+      width: 25px;
+      height: 25px;
+      vertical-align: middle;
+    }
+    .cart-login svg rect{
+      width: 25px;
+      height: 25px
+    }
+    .cart-login svg text{
+      font-size: 10px !important;
+    }
+
+}
+
+  @media (max-width: 991px) {
+    .navbar{
+      position: relative;
+      height: 150px;
+    }
+
+    #login-button-name{
+      display: none;
+    }
+    .cart-login{
+      margin-left: 0 !important;
+    }
+    .navbar-nav li{
+      display: inline-block !important;
+    }
+    .profile-dropdown{
+      padding-left: 0px;
+    }
+  }
 </style>
 
 <!-- Navbar -->
 
-<nav class="navbar navbar-expand-lg fixed-top">
+<nav class="navbar navbar-expand fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">
           <img src="{% static 'coffee_shop/images/logo.png' %}" width="100" height="60" class="d-inline-block"></a>
 
         <!-- Hamburger icon -->
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -33,14 +82,14 @@
         <ul class="navbar-nav me-auto">
           
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'home' %}">ABOUT US</a>
+                <a class="nav-link active" href="{% url 'home' %}">About Us</a>
             </li>
         
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                OUR COFFEES
+                Our Coffees
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul class="dropdown-menu coffee-dropdown" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="{% url 'coffees:coffees_by_category' pk=2 %}">
                     Espresso</a></li>
                 <li><hr class="dropdown-divider"></li>
@@ -57,10 +106,17 @@
         </ul>
       </div>
     
-      <ul class="navbar-nav ms-auto mb-lg-0">
+      <ul class="nav mb-lg-0 cart-login">
+
+        <li class="nav-item">
+          <div class="md-form search-form">
+            <input id="search-form" hx-post="{% url 'coffees:search_coffee' %}" hx-trigger="keyup changed delay:500ms" hx-target="#results" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' name="search" class="form-control shadow-none border-0" type="text" placeholder="Search Coffee"/>
+          </div>
+          <div id="results">{% include 'coffees/search_results.html' %}</div>
+        </li>
 
       <li class="nav-item">
-          <a class="nav-link active px-0" href="{% url 'cart:cart_detail' %}"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" style="display:inline-block; vertical-align:middle;" class="bi bi-cart2" viewBox="0 0 16 16">
+          <a class="nav-link active px-0" href="{% url 'cart:cart_detail' %}"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="black" style="display:inline-block; vertical-align:middle;" class="bi bi-cart2" viewBox="0 0 16 16">
             <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
           </svg></a>
       </li>
@@ -70,8 +126,8 @@
       
       {% if user.is_authenticated %}
 
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <li class="nav-item dropdown profile-dropdown">
+        <a class="nav-link dropdown-toggle profile-dropdown active" style="color:black;" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           {{ request.session.avatar | safe }}
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="position: absolute; right: 20px;">
@@ -80,7 +136,7 @@
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" href="{% url 'accounts:update' pk=user.pk %}">
               My profile</a></li>
-          <li><a class="dropdown-item" href="#">
+          <li><a class="dropdown-item" href="{% url 'shop:order_history' %}">
               My orders</a></li>
           <li><a class="dropdown-item" href="#">
               Favourites</a></li>
@@ -93,7 +149,7 @@
       {% else %}
 
         <li class="nav-item">
-          <a class="btn loginNavButton" href="{% url 'accounts:login' %}">Log in 
+          <a class="btn loginNavButton" href="{% url 'accounts:login' %}"><span id="login-button-name">Log in</span> 
             <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
               <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
             </svg></a>
@@ -111,4 +167,15 @@
       $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
     });
   });
+
+  jQuery(document).ready(function(){
+    $("#search-form").focusin(function(){
+      $("#results").show()
+    });
+    $("#search-form").blur(function(){
+      if (!$('#results').is(':hover')) {
+        $("#results").hide();
+    }});
+  });
+
 </script>

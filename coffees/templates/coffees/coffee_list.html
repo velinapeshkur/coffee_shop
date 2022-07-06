@@ -11,16 +11,49 @@
             text-decoration: none;
         }
         a:hover{
-            color:black
+            color:black;
+            position: relative;
         }
         .card-title{
             font-size: 1.2em;
             font-weight: lighter;
         }
-        @media screen and (min-width: 750px) {
+
+        .cart-button{
+            display: none;
+            border: 0.7px solid black;
+        }
+
+        @media (max-width: 768px) {
+            .card{
+                margin-left: 0 !important;
+            }
+            .card-title{
+            font-size: 2em;
+        }
+        }
+
+        @media screen and (min-width: 769px) {
             .card {
                 width: 45%;
             }
+            .card:hover {
+            transform: scale(1.1);
+            box-shadow: 2px 4px 4px 2px rgba(22, 22, 26, 0.18);
+            z-index: 2;
+            margin-bottom: 0;
+        }
+
+        .card {
+            transition: transform 0.2s ease;
+            z-index: 1;
+            margin-bottom: 35px;
+        }
+        .card:hover .cart-button, .cart-button:hover{
+            display: inline-block;
+            width: 100%;
+        }
+
         }
         @media screen and (min-width: 1200px) {
             .card {
@@ -37,12 +70,34 @@
 
     <h1 class='display-5 mb-4'>{% if category_name %}{{category_name}}{% else %}All Coffees{% endif %}</h1>
     <div class="row row-cols-md-3">
+
         {% for coffee in coffee_list %}
-            <div class="card mx-3 mb-3" style="border:none;">
-                <img class="card-img-top" src="{{coffee.image.url}}" alt="Card image cap">
+            <div class="card mx-3" style="border:none;">
+                <a href="{% url 'coffees:coffee_detail' pk=coffee.pk %}">
+                    <img class="card-img-top" src="{{coffee.image.url}}" alt="Card image cap">
+                </a>
                 <div class="card-body">
-                    <p class="card-text card-title"><a href="{% url 'coffees:coffee_detail' pk=coffee.pk %}" class="stretched-link">{{coffee.name}}</a></p>
-                    <p class="card-text fw-bold">${{coffee.price|floatformat:2}}</p>
+                    <p class="card-text card-title"><a href="{% url 'coffees:coffee_detail' pk=coffee.pk %}">{{coffee.name}}</a></p>
+                    <p class=" col card-text fw-bold mb-3">${{coffee.price|floatformat:2}}</p>
+
+                    <!-- Add to Cart Button -->
+
+                    <form action="{% url 'cart:cart_add' product_id=coffee.pk %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="1">
+                        {% if category_pk %}
+                            <input type="hidden" name="from_template" value="coffee_category:{{category_pk}}">
+                        {% else %}
+                            <input type="hidden" name="from_template" value="coffee_list">
+                        {% endif %}
+
+                        {% if coffee.out_of_stock %}
+                            <button class="btn disabled cart-button">Out of Stock</button>
+                        {% else %}
+                            <input class="btn btn-dark cart-button" type="submit" value="Add to cart">
+                        {% endif %}
+                    </form>
+                
                 </div>
             </div>
         {% endfor %}

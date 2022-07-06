@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from requests import request
 from django_countries.widgets import CountrySelectWidget
 from django.contrib.auth.models import User as auth_User
+from accounts.models import CustomUser
 
 
 
@@ -18,16 +19,17 @@ class ProfileCreateForm(UserCreationForm):
 
     
     class Meta:
-        model = auth_User
+        model = CustomUser
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
 
 
 class CustomAuthForm(AuthenticationForm):
     username = forms.CharField(label='', widget=forms.TextInput(attrs={'class':'form-control','placeholder': 'Username'}))
     password = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password'}))
+    checkout_login = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
     
     class Meta:
-        model = auth_User
+        model = CustomUser
         
         
 class ProfileUpdateForm(UserChangeForm):
@@ -37,7 +39,7 @@ class ProfileUpdateForm(UserChangeForm):
     email = forms.EmailField(label='', widget=forms.TextInput(attrs={'class':'form-control','placeholder': 'Email'}))
   
     class Meta:
-        model = auth_User
+        model = CustomUser
         fields = ('username', 'first_name', 'last_name', 'email')
 
 

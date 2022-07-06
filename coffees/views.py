@@ -28,4 +28,12 @@ class CoffeeListView(ListView):
 def list_by_category(request, pk):
     category = get_object_or_404(Categories, pk=pk)
     return render(request, 'coffees/coffee_list.html', {'coffee_list': Coffee.objects.filter(category=category),
-                                                        'category_name': category.category_name})
+                                                        'category_name': category.category_name,
+                                                        'category_pk': pk})
+
+
+def search_coffee(request):
+    search_text = request.POST.get('search')
+    results = Coffee.objects.filter(name__icontains=search_text)
+    return render(request, 'coffees/search_results.html', {'results': results,
+                                                           'search_text': search_text})

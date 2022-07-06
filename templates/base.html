@@ -10,14 +10,17 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
-     <!-- JQuery and Javascript -->
+    <!-- JQuery and Javascript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.7.0"></script>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@100;300;400;500&display=swap" rel="stylesheet">
         
@@ -32,18 +35,6 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-
-    <!-- Displaying Django messages -->
-
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-dismissible {{ message.tags }}">
-            <button type="button" class="btn-close me-auto" data-dismiss="alert" aria-label="Close">
-            </button>
-          <strong>{{message}}</strong>
-        </div>
-      {% endfor %}
-    {% endif %}
 
     {% block content %}
 

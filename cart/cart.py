@@ -1,6 +1,7 @@
 from decimal import Decimal
 from django.conf import settings
 from coffees.models import Coffee
+from coupons.models import Coupon
 
 class Cart(object):
 
@@ -10,7 +11,7 @@ class Cart(object):
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
-        
+                
     def add(self, product, quantity=1, update_quantity=False):
         product_id = str(product.id)
         if product_id not in self.cart:
@@ -39,8 +40,11 @@ class Cart(object):
             self.cart[str(product.id)]['product'] = product
 
         for item in self.cart.values():
-            item['price'] = Decimal(item['price'])
-            item['total_price'] = item['price'] * item['quantity']
+            if not item['product'].out_of_stock():
+                item['price'] = Decimal(item['price'])
+                item['total_price'] = item['price'] * item['quantity']
+            else:
+                item['price'] = 0
             yield item
             
     def __len__(self):
@@ -50,6 +54,12 @@ class Cart(object):
         return sum(Decimal(item['price']) * item['quantity'] for item in
                self.cart.values())
         
+    def get_coupon_price(self):
+        coupon_id = self.session.get('coupon_id')
+        coupon = Coupon.objects.get(id=coupon_id)
+        discount = coupon.discount
+        return self.get_total_price() - (self.get_total_price() * discount / 100)
+
     def clear(self):
         del self.session[settings.CART_SESSION_ID]
         self.session.modified = True

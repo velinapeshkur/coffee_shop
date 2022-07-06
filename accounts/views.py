@@ -1,8 +1,11 @@
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, View
 from requests import request
+
+from cart.cart import Cart
 from . import forms, models
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import PasswordChangeView
@@ -10,6 +13,8 @@ import avinit
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth.models import User as auth_User
+import copy
+from django.contrib.auth import logout
 
 
 
@@ -33,7 +38,6 @@ def get_avatar(request, user):
     request.session['large_avatar'] = avinit.get_svg_avatar(user.get_full_name(),
                                                             colors=avatar_colors,
                                                             **large_avatar_options)
-
 
 def sign_up(request):
     form = forms.ProfileCreateForm()
@@ -60,18 +64,31 @@ def login_view(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
+            checkout_login = form.cleaned_data.get('checkout_login')
+
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 get_avatar(request=request, user=user)
-
+                if checkout_login:
+                    return redirect('shop:checkout')
                 return redirect('home')
         
     return render(request, "accounts/login.html", {"form": form})
 
 
+# def logout_view(request):
+#     cart = copy.deepcopy(Cart(request).cart)
+#     logout(request)
+#     session = request.session
+#     session[settings.CART_SESSION_ID] = cart
+#     session.modified = True
+    
+#     return redirect('home')
+
+
 class UpdateProfileView(LoginRequiredMixin, UpdateView):
-    model = auth_User
+    model = models.CustomUser
     template_name = 'accounts/profile_update.html'
     form_class = forms.ProfileUpdateForm
     
@@ -97,7 +114,7 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
         return super().form_invalid(form)
 
 class DeleteProfileView(LoginRequiredMixin, DeleteView):
-    model = auth_User
+    model = models.CustomUser
     success_url = reverse_lazy('home')
 
 

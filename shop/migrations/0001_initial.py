@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('accounts', '0002_delete_shippingaddress'),
         ('coffees', '0003_alter_coffee_description'),
     ]
 
