@@ -23,6 +23,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.HomePage.as_view(), name='home'),
+    path('access_denied/', views.access_denied, name='access_denied'),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('coffees/', include('coffees.urls', namespace='coffees')),

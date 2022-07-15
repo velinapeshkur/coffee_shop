@@ -12,3 +12,6 @@ def order_complete(request, pk):
     order.complete = True
     order.save()
     return HttpResponse("")
+
+def access_denied(request):
+    return render(request, 'access_denied.html')

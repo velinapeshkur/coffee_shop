@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+<style>
+    h1{
+        font-size: 300px;
+        color: rgb(221, 167, 6);
+        line-height: 1;
+        margin-bottom: 0;
+    }
+    .access-text{
+        font-size: 25px;
+        font-weight: 400;
+        margin-left: 35px;
+    }
+    #shopping-link{
+        color:black;
+        padding-left: 25px;
+}
+</style>
+
+<div class="container-fluid col-md-6 m-auto">
+    <h1 class="text-center">403</h1>
+    <p class="text-center access-text">You don't have access to this page.</p>
+    <p class="text-center mt-5"><a href="{% url 'coffees:all_coffees' %}" id="shopping-link">Back to shopping</a></p>
+
+</div>
+{% endblock %}

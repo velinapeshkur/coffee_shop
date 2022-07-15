@@ -15,6 +15,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User as auth_User
 import copy
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import user_passes_test
+
 
 
 
@@ -39,6 +41,11 @@ def get_avatar(request, user):
                                                             colors=avatar_colors,
                                                             **large_avatar_options)
 
+
+def logout_check(user):
+    return user.is_anonymous
+
+@user_passes_test(logout_check, login_url='/access_denied/')
 def sign_up(request):
     form = forms.ProfileCreateForm()
     
@@ -56,6 +63,7 @@ def sign_up(request):
     return render(request, 'accounts/signup.html', {'form': form})
 
 
+@user_passes_test(logout_check, login_url='/access_denied/')
 def login_view(request):    
     form = forms.CustomAuthForm()  
     if request.method == 'POST':
@@ -75,16 +83,6 @@ def login_view(request):
                 return redirect('home')
         
     return render(request, "accounts/login.html", {"form": form})
-
-
-# def logout_view(request):
-#     cart = copy.deepcopy(Cart(request).cart)
-#     logout(request)
-#     session = request.session
-#     session[settings.CART_SESSION_ID] = cart
-#     session.modified = True
-    
-#     return redirect('home')
 
 
 class UpdateProfileView(LoginRequiredMixin, UpdateView):
@@ -134,32 +132,3 @@ class UpdatePassword(LoginRequiredMixin, PasswordChangeView):
             error_list += error
         messages.error(self.request, error_list)
         return HttpResponseRedirect(self.get_success_url())
-
-
-# class UpdateAddress(LoginRequiredMixin, View):
-#     template_name = 'accounts/profile_update.html'
-    
-#     def get_success_url(self):  
-#         return reverse_lazy('accounts:update', kwargs = {'pk': self.request.user.pk})
-    
-#     def post(self, request, *args, **kwargs):
-
-#         user = get_object_or_404(models.User, pk=self.request.user.pk)
-#         form = forms.AddressUpdateForm(data=request.POST)
-
-#         if form.is_valid():
-#             address = form.save(commit=False)
-#             address.customer = user
-#             address.save()
-#             user.address = address
-#             user.save()
-#             messages.success(request, "Your shipping address is successfully updated")
-#             return HttpResponseRedirect(self.get_success_url())
-        
-#         else:
-#             error_list = ''
-#             for field, error in form.errors.items():
-#                 error_list += error
-#             messages.error(request, error_list)
-#             return HttpResponseRedirect(self.get_success_url())
-    
