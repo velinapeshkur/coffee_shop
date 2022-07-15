@@ -10,7 +10,7 @@ from . import forms, models
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import PasswordChangeView
 import avinit
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.contrib.auth.models import User as auth_User
 import copy
@@ -85,10 +85,16 @@ def login_view(request):
     return render(request, "accounts/login.html", {"form": form})
 
 
-class UpdateProfileView(LoginRequiredMixin, UpdateView):
+class UpdateProfileView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
     model = models.CustomUser
     template_name = 'accounts/profile_update.html'
     form_class = forms.ProfileUpdateForm
+    
+    def test_func(self):
+        return self.kwargs['pk'] == self.request.user.pk
+
+    def handle_no_permission(self):
+        return redirect('access_denied')
     
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -114,10 +120,16 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
 class DeleteProfileView(LoginRequiredMixin, DeleteView):
     model = models.CustomUser
     success_url = reverse_lazy('home')
+    
+    def get(self, *args, **kwargs):
+        return redirect('access_denied')
 
 
 class UpdatePassword(LoginRequiredMixin, PasswordChangeView):
     template_name = 'accounts/profile_update.html'
+    
+    def get(self, *args, **kwargs):
+        return redirect('access_denied')
     
     def get_success_url(self):  
         return reverse_lazy('accounts:update', kwargs = {'pk': self.request.user.pk})       

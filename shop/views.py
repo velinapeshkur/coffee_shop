@@ -33,6 +33,9 @@ def send_confirmation_email(order):
 
 def checkout(request):
     cart = Cart(request)
+    if len(cart) == 0:
+        return redirect('access_denied')
+    
     contact_form = ContactInfoForm
     address_form = ShippingAddressForm
     payment_form = PaymentMethodForm
@@ -86,6 +89,7 @@ def create_order(request):
                 return redirect('shop:payment', pk=order.pk)
             
             return redirect('shop:confirm_order', pk=order.pk)
+    return redirect('access_denied')
 
 
 def payment_view(request, pk):
