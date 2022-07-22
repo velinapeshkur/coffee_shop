@@ -1,0 +1,62 @@
+#continue-shopping{
+    font-size: 20px;
+    color:#e4ae0c;
+    text-decoration: none;
+}
+
+table{
+    font-size: 18px;
+}
+
+td{
+    vertical-align: middle;
+}
+
+td img{
+    width: 100px;
+    height: 100px;
+}
+    
+#remove-link{
+    font-size: 13px;
+    display:block;
+    position:absolute;
+    text-decoration: none;
+    color:black;
+    opacity: 0.4;
+    padding-top: 6px;
+    padding-left: 1.2%;
+}
+
+#remove-link:hover{
+    opacity: 0.8;
+}
+
+#checkout-link{
+    background-color: #f8bb05;
+    width: 90%;
+    border-radius: 7px;
+    color: #F1FAEE;
+    cursor: pointer;
+    font-size: 1.3em;
+}
+
+.qty-input{
+    width:45px;
+    text-align: right;
+}
+
+.total-price{
+    text-align: right;
+}
+
+@media (max-width: 768px){
+    table, .total-price{
+        font-size: 14px;
+    }
+
+    #checkout{
+        border-radius: 5px;
+        font-size: 16px;
+    }
+}

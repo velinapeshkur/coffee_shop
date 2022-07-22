@@ -1,77 +1,38 @@
 {% extends "base.html" %}
-
 {% load static %}
 
 {% block title %}{{coffee.name}}{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'coffee_shop/css/coffees/coffee_detail.css' %}">{% endblock %}
+
 {% block content %}
-
-<style>
-    .btn-dark{
-        width: 100%;
-        height: 50px;
-        font-size: 1.2em;
-    }
-
-    form {
-        text-align: center;
-        margin: 0;
-        margin-top: 30px;
-    }
-
-    .quantity input {
-        display: inline-block;
-        width: 40px;
-        height: 50px;
-        padding: 0;
-        margin: 0;
-        text-align:center;
-        background: #fff;
-        border: none;
-    }
-
-    .quantity{
-        border: 0.7px solid black;
-        border-radius: 0.375rem;
-    }
-    .coffee-price{
-        font-size: 20px;
-        text-align: end;
-        font-weight:300;
-    }
-
-    /* .img-fluid{
-        position: fixed;
-        width: 48%;
-        margin-bottom: 40px;
-    } */
-
-
-</style>
 
 <div class="container-fluid px-3 mb-4">
     <div class="row">
+
+        <!-- Coffee Image -->
         <div class="col-lg-6 col-sm-10">
             <img class="img-fluid" src="{{coffee.image.url}}">
         </div>
-        <div class="col-lg-5 col-sm-10 coffeeName mx-2 mt-2 pt-5">
 
+        <div class="col-lg-5 col-sm-10 mx-2 mt-2 pt-5">
+            
+            <!-- Header -->
             <div class="row align-items-end">
                 <div class="col-9">
                     <p class="display-5 mb-1">{{coffee.name}}</p>
                 </div>
-                <div class="col coffee-price">
-                    <p>${{coffee.price|floatformat:2}}</p>
+                <div class="col">
+                    <p id="coffee-price">${{coffee.price|floatformat:2}}</p>
                 </div>
             </div>
 
+            <!-- Add to cart -->
             <form action="{% url 'cart:cart_add' product_id=coffee.id %}" method="post">
                 <div class="row">
-                    <div class="col">
-                            <div class="quantity">
-                              <input type='button' value='-' class='minus' field='quantity'>
-                              <input type='text' name='quantity' value='1' class='qty'>
-                              <input type='button' value='+' class='plus' field='quantity'>
-                            </div>
+                    <div class="col quantity">
+                        <input type='button' value='-' class='minus' field='quantity'>
+                        <input type='text' name='quantity' value='1' class='qty'>
+                        <input type='button' value='+' class='plus' field='quantity'>
                     </div>
                     <div class="col">
                         {% csrf_token %}
@@ -84,6 +45,8 @@
                     </div>
                 </div>
             </form>
+    
+            <!-- Coffee description -->
             <h4 class="fw-bold mt-5">{{coffee.notes}}</h4>
             <p class="fw-light">Country: {{coffee.country}}</p>
             <p class="fw-light">Region: {{coffee.region}}</p>
@@ -96,5 +59,5 @@
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src="{% static 'coffee_shop/js/quantity_input.js' %}"></script>
+    <script type="text/javascript" src="{% static 'coffee_shop/js/quantity_input_coffee.js' %}"></script>
 {% endblock %}

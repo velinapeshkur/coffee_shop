@@ -1,0 +1,15 @@
+{% if results %}
+
+    <ul class="list-group list-group-flush col-xs-12 search-results">
+        {% for coffee in results %}
+        <li class="list-group-item" id="search-coffee-list">
+            <a href="{% url 'coffees:coffee_detail' pk=coffee.pk %}"><img class="img-fluid" src="{{coffee.image.url}}" width="30" height="30"></a>
+            <a href="{% url 'coffees:coffee_detail' pk=coffee.pk %}">{{coffee.name}}</a>
+        </li>
+        {% endfor %}
+        
+        {% elif search_text %}
+        <li class="list-group-item" id="search-no-results">No results</li>
+    </ul>
+
+{% endif %}

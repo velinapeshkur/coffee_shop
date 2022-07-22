@@ -1,0 +1,17 @@
+.thank-you h1{
+    font-family: 'IM Fell DW Pica', serif;
+}
+
+.thank-you{
+    text-align: center;
+}
+
+#shopping-link{
+    font-size: 20px;
+    text-decoration: none;
+    color: #f8bb05;
+}
+
+.thank-you img{
+    width: 100px; 
+}

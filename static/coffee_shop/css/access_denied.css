@@ -1,0 +1,17 @@
+#error-title{
+    font-size: 300px;
+    color: #dda706;
+    line-height: 1;
+    margin-bottom: 0;
+}
+
+#error-text{
+    font-size: 25px;
+    font-weight: 400;
+    margin-left: 35px;
+}
+
+#shopping-link{
+    color:black;
+    padding-left: 25px;
+}

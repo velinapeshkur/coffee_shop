@@ -1,21 +1,17 @@
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
-from django.views import View
-from coffees.models import Coffee
-from django.contrib import messages
-from django.views.generic import CreateView, ListView
-from shop.models import ShippingAddress, Order, OrderItem
-from cart.cart import Cart
-from .forms import ContactInfoForm, ShippingAddressForm, PaymentMethodForm
-from coupons.forms import CouponApplyForm
-from accounts.forms import CustomAuthForm
+from django.shortcuts import redirect, render
+from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
-
+from shop.models import Order, OrderItem
+from cart.cart import Cart
+from shop.forms import ContactInfoForm, ShippingAddressForm, PaymentMethodForm
+from coupons.forms import CouponApplyForm
+from accounts.forms import CustomAuthForm
 
 # Create your views here.
 
@@ -60,16 +56,22 @@ def create_order(request):
         
         if contact_form.is_valid() and address_form.is_valid() and payment_form.is_valid():
             order = contact_form.save(commit=False)
+            
+            # Add user if authenticated
             if request.user.is_authenticated:
                 order.user = request.user
 
+            # Address
             address = address_form.save()
             order.address = address
+    
+            # Calculate total price
             if 'coupon_id' in request.session and request.session['coupon_id'] != None:
                 order.total_price = cart.get_coupon_price()
             else:
                 order.total_price = cart.get_total_price()
             
+            # Save payment method
             payment_method = payment_form.cleaned_data.get('payment')
             if payment_method == 'Online':
                 order.payment = Order.AWAITING_PAYMENT
@@ -78,10 +80,12 @@ def create_order(request):
                 order.payment = Order.DELIVERY_PAYMENT
                 order.save()
 
+            # Saving order items
             for item in cart:
                 if item['price'] != 0:
                     order_item = OrderItem(item=item['product'], order=order, quantity=item['quantity'], cost=item['total_price'])
                     order_item.save()
+                
             request.session['coupon_id'] = None
             cart.clear()
             
@@ -89,13 +93,16 @@ def create_order(request):
                 return redirect('shop:payment', pk=order.pk)
             
             return redirect('shop:confirm_order', pk=order.pk)
+
     return redirect('access_denied')
 
 
+# A stub for adding payment system
 def payment_view(request, pk):
     return render(request, 'shop/payment.html', {'order_pk': pk})
 
 
+# Marks order as paid
 def paid(request, pk):
     order = Order.objects.get(pk=pk)
     order.payment = Order.PAID
@@ -130,4 +137,3 @@ class OrderListView(ListView, LoginRequiredMixin):
             order_items[order.pk] = list(OrderItem.objects.filter(order=order.pk))
         context['order_items'] = order_items
         return context
-

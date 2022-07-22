@@ -6,6 +6,19 @@ html, body{
     min-height: 100vh;
 }
 
+#submit-button{
+    background-color: #4f3025;
+    width: 90px;
+    height: 45px;
+    border-radius: 7px;
+    font-size: 20px;
+    color: #F1FAEE;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* Navbar */
+
 .navbar{
     font-size: 23px;
     height: 100px;
@@ -21,12 +34,7 @@ html, body{
     opacity: 1;
 }
 
-/* .nav-item{
-    background-color: rgba(255, 255, 255, 0.669);
-    border-radius: 20px;
-} */
-
-.dropdown:hover .dropdown-menu {
+.dropdown:hover .dropdown-menu{
     display: block;
     margin-top: 0; 
  }
@@ -45,44 +53,7 @@ html, body{
     opacity: 0.80;
 }
 
-#brandName{
-    font-size: 3.5em;
-    text-align: center;
-    font-family: 'IM Fell DW Pica', serif;
-}
-
-
-.errorlist{
-    margin-bottom:0%;
-}
-
-.mainPageIMG{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.coffeeName{
-    text-align: left;
-}
-
-.logInJumbotron{
-    background-image: url(../images/login_background.jpeg);
-    background-size: cover;
-}
-
-#submitButton{
-    background-color: #4f3025;
-    width: 90px;
-    height: 45px;
-    border-radius: 7px;
-    font-size: 20px;
-    color: #F1FAEE;
-    cursor: pointer;
-    text-align: center;
-}
-
-.loginNavButton{
+#login-nav-button{
     background-color: rgb(248, 187, 5);
     width: 95px;
     height: 50px;
@@ -92,17 +63,127 @@ html, body{
     font-size: 23px;
 }
 
-#copyrightLink{
+#cart-total{
+    display: block;
+    text-align: center;
+    color:#fff;
+    background-color: rgb(74, 74, 74);
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    font-size: 15px;
+    margin-right: 12px;
+}
+
+.search-form{
+    margin-right: 27px;
+    margin-top: 7px;
+    border: none;
+    border-bottom: 0.7px solid black;
+}
+
+/* Search Form Results */
+
+.search-results{
+    position:absolute; 
+    border-radius: 5px; 
+    width: 250px;
+}
+
+.search-results a{
+    color:black; 
+    text-decoration:none; 
+    font-size:14px; 
+    font-weight:400;
+}
+
+#search-coffee-list{
+    background: #ffffff; 
+    opacity: 0.9; 
+    padding-left: 5px;
+}
+
+#search-no-results{
+    font-size:14px; 
+    font-weight:400;
+    position: absolute; 
+    margin-top: 8px;
+}
+
+/* Footer */
+
+#copyright-link{
     color: #6e777f;
     text-decoration: none;
 }
 
-#Events{
-    text-align: center;
+@media (max-width: 700px){
+    .navbar{
+        font-size: 15px;
+    }
+
+    .nav-item li{
+        font-size: 15px;
+    }
+
+    #profile-pic svg{
+        width: 33px;
+        height: 33px;
+        vertical-align: middle;
+    }
+
+    #profile-pic svg rect{
+        width: 33px;
+        height: 33px
+    }
+
+    #profile-pic svg text{
+        font-size: 13px !important;
+    }
+
+    .navbar-collapse{
+        position: absolute;
+        font-weight: 300;
+        margin-top: 175px;
+        margin-left: 110px;
+        background-color: white;
+        border: 1px solid rgb(196, 195, 195);
+        border-radius: 7px;
+        padding: 7px;
+    }
 }
 
+@media (max-width: 991px){
+    .navbar{
+        position: relative;
+        height: 150px;
+    }
 
-table{
-    font-size: 1.2em;
-    width: 80%;
+    #login-button-name{
+        display: none;
+    }
+
+    .cart-login{
+        margin-left: 0 !important;
+    }
+
+    .navbar-nav li{
+        display: inline-block !important;
+    }
+
+    .profile-dropdown{
+        padding-left: 0px;
+    }
+
+    .search-form{
+        display:none;
+    }
+
+    .dropdown-menu.show{
+        display: grid;
+    }
+
+    .dropdown:hover .dropdown-menu{
+        display:grid;
+    }
 }

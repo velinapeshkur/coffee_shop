@@ -1,9 +1,6 @@
 from django import forms
 from django_countries.widgets import CountrySelectWidget
-from accounts.models import CustomUser
 from shop.models import ShippingAddress, Order
-from django_countries.fields import CountryField
-from django.contrib.auth.forms import UserChangeForm
 
 
 class ContactInfoForm(forms.ModelForm):
@@ -13,8 +10,8 @@ class ContactInfoForm(forms.ModelForm):
     
     class Meta:
         model = Order
-        fields = ['first_name', 'last_name', 'email']
-        
+        fields = ('first_name', 'last_name', 'email')
+
 
 class ShippingAddressForm(forms.ModelForm):
     address = forms.CharField(label='', widget=forms.TextInput(attrs={'class':'form-control','placeholder': 'Address (Street, Building, etc.)'}))

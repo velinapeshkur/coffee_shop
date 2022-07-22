@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
 from django.utils import timezone
-from .models import Coupon
-from .forms import CouponApplyForm
+from coupons.models import Coupon
+from coupons.forms import CouponApplyForm
 from django.contrib import messages
 
 # Create your views here.
@@ -25,6 +25,7 @@ def coupon_apply(request):
             request.session['coupon_id'] = None
             messages.error(request, "Sorry, this promocode doesn't exist")
         return redirect('shop:checkout')
+
 
 def coupon_remove(request):
     request.session['coupon_id'] = None

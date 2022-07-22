@@ -1,8 +1,4 @@
-from unicodedata import category
 from django.shortcuts import get_object_or_404, render
-
-# Create your views here.
-from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 from coffees.models import Coffee, Categories
 from cart.forms import CartAddProductForm
@@ -24,16 +20,9 @@ class CoffeeListView(ListView):
     def get_queryset(self):
         return Coffee.objects.all()
 
-   
+
 def list_by_category(request, pk):
     category = get_object_or_404(Categories, pk=pk)
     return render(request, 'coffees/coffee_list.html', {'coffee_list': Coffee.objects.filter(category=category),
                                                         'category_name': category.category_name,
                                                         'category_pk': pk})
-
-
-def search_coffee(request):
-    search_text = request.POST.get('search')
-    results = Coffee.objects.filter(name__icontains=search_text)
-    return render(request, 'coffees/search_results.html', {'results': results,
-                                                           'search_text': search_text})

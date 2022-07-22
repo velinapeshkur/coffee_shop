@@ -1,0 +1,6 @@
+.login-jumbotron{
+    background-image: url(/static/coffee_shop/images/login_background.jpeg);
+    background-size: cover;
+    border-radius: 0.5rem;
+    margin: auto;
+}

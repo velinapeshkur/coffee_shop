@@ -1,6 +1,4 @@
-from multiprocessing import cpu_count
 from django.db import models
-from accounts.models import CustomUser
 from coffees.models import Coffee
 from django_countries.fields import CountryField
 from django.contrib.auth.models import User as auth_User

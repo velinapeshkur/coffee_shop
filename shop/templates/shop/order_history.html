@@ -1,50 +1,14 @@
 {% extends "base.html" %}
-
-
 {% load custom_tags %}
 {% load static %}
 
 {% block title %}Order History{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'coffee_shop/css/shop/order_history.css' %}">{% endblock %}
+
 {% block content %}
 
-<style>
-
-    table{
-        width: 90%;
-    }
-
-    .order-items td{
-        font-size: 15px;
-        font-weight: 400;
-        border: 0.5px solid black;
-        padding-left: 8px;
-        padding-top: 3px;
-        padding-bottom: 3px;
-    }
-    #order-date{
-        font-weight: 400;
-    }
-    #total-price{
-        font-weight: 500;
-    }
-
-    #status-delivered{
-        color:rgb(6, 134, 57);
-    }
-
-    #status-ordered{
-        color: rgb(206, 159, 7)
-    }
-
-    #payment-button{
-        width: 50px;
-        height: 35px;
-        font-size: 15px;
-    }
-
-</style>
-
 <div class="col-11 col-lg-6 mx-auto mt-4">
+
     <p class="col display-6 mb-4">Your orders 
         <img src="{% static 'coffee_shop/images/coffee_bean.png' %}" width="3%">
     </p>
@@ -52,9 +16,10 @@
     {% if not order_list %}
         <h4 class="fw-light my-5">You have no orders.</h4>
     {% endif %}
-       
+
+    <!-- Order list -->
     {% for order in order_list %}
-        <div class="mb-5 order">
+        <div class="mb-5">
             <p class="mb-1" id="order-date">{{order.date_ordered|date}} | 
                 {% if order.complete %}<span id="status-delivered">Shipped</span>{% else %}<span id="status-ordered">Ordered</span>{% endif %}</p>
             <h3>Order #{{order.pk}}</h3>
@@ -71,6 +36,7 @@
                     <td colspan="3" id="total-price">Total: ${{order.total_price|floatformat:2}}</td>
                 </tr>
             </table>
+
             {% if not order.complete %}
                 <p class="mt-2 mb-1">Payment status: {{order.get_payment_display}}</p>
                 {% if order.payment == 0 %}
@@ -79,6 +45,7 @@
             {% endif %}
         </div>
     {% endfor %}
+
 </div>
 
 {% endblock %}

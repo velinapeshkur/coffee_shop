@@ -1,27 +1,20 @@
-from django.conf import settings
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, View
-from requests import request
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import UpdateView, DeleteView
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from cart.cart import Cart
 from . import forms, models
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.views import PasswordChangeView
-import avinit
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
-from django.contrib.auth.models import User as auth_User
-import copy
-from django.contrib.auth import logout
 from django.contrib.auth.decorators import user_passes_test
-
-
+import avinit
 
 
 # Create your views here.
 
+# Generate user avatar
 def get_avatar(request, user):
     avatar_colors = ['#F8BB05',]
     avatar_options = {"width": "42",
@@ -45,6 +38,7 @@ def get_avatar(request, user):
 def logout_check(user):
     return user.is_anonymous
 
+
 @user_passes_test(logout_check, login_url='/access_denied/')
 def sign_up(request):
     form = forms.ProfileCreateForm()
@@ -57,7 +51,6 @@ def sign_up(request):
             user.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             get_avatar(request=request, user=user)
-            
             return redirect('home')
         
     return render(request, 'accounts/signup.html', {'form': form})
@@ -65,7 +58,8 @@ def sign_up(request):
 
 @user_passes_test(logout_check, login_url='/access_denied/')
 def login_view(request):    
-    form = forms.CustomAuthForm()  
+    form = forms.CustomAuthForm()
+    
     if request.method == 'POST':
         form = forms.CustomAuthForm(request=request, data=request.POST)
         
@@ -73,11 +67,12 @@ def login_view(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             checkout_login = form.cleaned_data.get('checkout_login')
-
             user = authenticate(username=username, password=password)
+
             if user is not None:
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 get_avatar(request=request, user=user)
+
                 if checkout_login:
                     return redirect('shop:checkout')
                 return redirect('home')
@@ -90,6 +85,7 @@ class UpdateProfileView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
     template_name = 'accounts/profile_update.html'
     form_class = forms.ProfileUpdateForm
     
+    # Checks if user is accessing their own profile page
     def test_func(self):
         return self.kwargs['pk'] == self.request.user.pk
 

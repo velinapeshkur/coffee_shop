@@ -1,0 +1,12 @@
+.signup-jumbotron{
+    padding: 32px 28px 32px 28px;
+    margin-top: 25px;
+    border-radius: 0.5rem;
+    background-color: #f8f9fa;
+}
+
+.popoverContent{
+    font-size: 12px;
+    margin: 0%;
+    padding-left: 5%;
+}
