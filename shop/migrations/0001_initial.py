@@ -21,7 +21,6 @@ class Migration(migrations.Migration):
                 ('date_ordered', models.DateTimeField(auto_now_add=True)),
                 ('complete', models.BooleanField()),
                 ('transaction_id', models.CharField(max_length=200)),
-                ('customer', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='accounts.customer')),
             ],
         ),
         migrations.CreateModel(

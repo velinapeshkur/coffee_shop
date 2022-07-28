@@ -13,10 +13,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='order',
-            name='customer',
-        ),
         migrations.AddField(
             model_name='order',
             name='email',
