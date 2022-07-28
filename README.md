@@ -1,4 +1,4 @@
-# <img width="20" alt="Favicon" src="https://cdn-icons-png.flaticon.com/512/31/31082.png"> coffee_shop
+# <img width="23" alt="Favicon" src="https://cdn-icons-png.flaticon.com/512/31/31082.png"> Coffee Roasters Shop
 
 ## Table of contents
 
@@ -22,7 +22,7 @@ Website allows to shop as a guest and a registered user. Key features also inclu
 - coupon system
 - order confirmation email
 - easy-to-use admin panel
-- responsive web-design
+- responsive web design
 
 ## Setup
 
@@ -51,7 +51,7 @@ $ source venv/bin/activate
 (venv)$ cd coffee_shop
 (venv)$ cp .env.example .env
 ```
-Edit .env file manually by adding custom variables.
+- Edit .env file manually by adding custom variables.
 
 &#x2757; Note: To use gmail in Django project, you need to turn on 2-step verification and generate an app password.
 For more info, please visit Google Help Center page: https://support.google.com/accounts/answer/185833?hl=en 
@@ -108,7 +108,7 @@ For more info, please visit Google Help Center page: https://support.google.com/
 | <img width="600" alt="Screenshot 2022-07-26 at 13 25 24" src="https://user-images.githubusercontent.com/94002579/180990254-607b4879-8d87-4824-926f-e1862dd75ce9.png"> |
 | --- |
 
-Product quantity field is editable, after changing it the total price is updated (max quantity equals total quantity of products left)
+Product quantity field is editable, after changing it the total price is updated (max quantity equals total quantity of products left). 
 
 ### Checkout
 
