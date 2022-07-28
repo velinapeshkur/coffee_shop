@@ -16,6 +16,7 @@ Coffee Roasters Shop is a personal portfolio ecommerce website, made with Python
 
 Website allows to shop as a guest and a registered user. Key features also include:
 - shopping cart session handling
+- interactive search bar
 - displaying order history
 - user profile management
 - automatically generated user avatar (using initials)
@@ -86,6 +87,11 @@ For more info, please visit Google Help Center page: https://support.google.com/
 | <img width="500" alt="Screenshot 2022-07-26 at 13 23 04" src="https://user-images.githubusercontent.com/94002579/180986437-37b81ec3-d9bc-4c9d-b32f-c6707321595f.png"> | <img width="500" alt="Screenshot 2022-07-26 at 13 23 36" src="https://user-images.githubusercontent.com/94002579/180987090-6d2d0271-932e-4082-8ab0-99606093565a.png"> |
 |:--:| :--: |
 | *Guest View* | *Login View* |
+
+### Search Bar
+
+| <img width="350" alt="Screenshot 2022-07-28 at 16 45 05" src="https://user-images.githubusercontent.com/94002579/181520793-076fb0d4-8812-4760-9288-1ec71e94e82b.png"> |
+| --- |
 
 ### Login & Sign Up
 
