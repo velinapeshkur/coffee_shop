@@ -1,6 +1,28 @@
 # <img width="20" alt="Favicon" src="https://cdn-icons-png.flaticon.com/512/31/31082.png"> coffee_shop
 
-website description
+## Table of contents
+
+- [Overview](#overview)
+- [Setup](#setup)
+- [Website Demo](#website-demo)
+- [Admin Panel](#admin-panel)
+- [Task List](#task-list)
+- [Credits](#credits)
+
+
+## Overview
+
+Coffee Roasters Shop is a personal portfolio ecommerce website, made with Python and Django framework in the backend and HTML, CSS, JQuery and Bootstrap for the frontend. Currently hosted on https://coffeeshop.pythonanywhere.com/. 
+
+Website allows to shop as a guest and a registered user. Key features also include:
+- shopping cart session handling
+- displaying order history
+- user profile management
+- automatically generated user avatar (using initials)
+- coupon system
+- order confirmation email
+- easy-to-use admin panel
+- responsive web-design
 
 ## Setup
 
@@ -24,13 +46,13 @@ $ source venv/bin/activate
 
 - Generate a Django Secret Key at https://djecrety.ir/
 
-- Copy and edit .env file for handling environment variables:
+- Copy .env file for handling environment variables:
 ```sh
 (venv)$ cd coffee_shop
 (venv)$ cp .env.example .env
-(venv)$ echo SECRET_KEY='your_token' > .env
-(venv)$ echo DEBUG=True >> .env
 ```
+Edit .env file manually by adding custom variables.
+
 &#x2757; Note: To use gmail in Django project, you need to turn on 2-step verification and generate an app password.
 For more info, please visit Google Help Center page: https://support.google.com/accounts/answer/185833?hl=en 
 
@@ -83,7 +105,9 @@ For more info, please visit Google Help Center page: https://support.google.com/
 
 ### Cart
 
-<img width="600" alt="Screenshot 2022-07-26 at 13 25 24" src="https://user-images.githubusercontent.com/94002579/180990254-607b4879-8d87-4824-926f-e1862dd75ce9.png"> 
+| <img width="600" alt="Screenshot 2022-07-26 at 13 25 24" src="https://user-images.githubusercontent.com/94002579/180990254-607b4879-8d87-4824-926f-e1862dd75ce9.png"> |
+| --- |
+
 Product quantity field is editable, after changing it the total price is updated (max quantity equals total quantity of products left)
 
 ### Checkout
@@ -96,9 +120,61 @@ Add/Remove Coupon Functionality:
 
 <img width="400" alt="Screenshot 2022-07-26 at 13 26 05" src="https://user-images.githubusercontent.com/94002579/180999432-3e18a66f-e63d-4e26-9135-1fe02062d14c.png">
 
-Order Confirmation Page: 
+### Order Confirmation 
 
-<img width="600" alt="Screenshot 2022-07-26 at 13 26 30" src="https://user-images.githubusercontent.com/94002579/181011747-37f17a05-2881-46c9-9d12-0ea0765d4aab.png">
+| <img width="600" alt="Screenshot 2022-07-26 at 13 26 30" src="https://user-images.githubusercontent.com/94002579/181011747-37f17a05-2881-46c9-9d12-0ea0765d4aab.png"> | <img width="300" alt="Order Confirmation" src="https://user-images.githubusercontent.com/94002579/181021440-a91305db-4884-429a-b7e7-ce3f43beea63.png"> |
+|:--:| :--: |
+| *Confirmation Page* | *Confirmation Email* |
 
+### Order History
+
+| <img width="600" alt="Screenshot 2022-07-26 at 16 59 59" src="https://user-images.githubusercontent.com/94002579/181024560-291eddb3-afcc-45bf-b174-108cd92f76fa.png"> |
+| --- |
+
+### Profile Page
+
+| <img width="600" alt="Screenshot 2022-07-26 at 16 59 59" src="https://user-images.githubusercontent.com/94002579/181026052-af07926d-4f9e-468a-9d1e-4e4734eafb5f.png"> |
+| --- |
 
 ## Admin Panel
+
+To access Admin Panel, navigate to http://127.0.0.1:8000/admin/ and log in with superuser credentials. 
+
+### Products
+
+| <img width="600" alt="Screenshot 2022-07-28 at 13 22 31" src="https://user-images.githubusercontent.com/94002579/181483686-ff054725-fbdb-4ec5-a625-26a6594db867.png"> |
+| --- |
+
+Admin can easily update product quantity in list view (also updates automatically after ordering). 
+
+### Coupons
+
+| <img width="600" alt="Screenshot 2022-07-28 at 13 22 21" src="https://user-images.githubusercontent.com/94002579/181484343-42e3f574-4b65-4d73-95e4-d0511c501642.png"> |
+| --- |
+
+### Orders 
+
+| <img width="600" alt="Screenshot 2022-07-28 at 13 22 50" src="https://user-images.githubusercontent.com/94002579/181485111-77fdf905-f810-4a1b-911d-88ff516495d6.png"> |
+| --- |
+
+Manage orders by using admin list actions:
+|<img width="498" alt="Screenshot 2022-07-28 at 13 22 56" src="https://user-images.githubusercontent.com/94002579/181486260-476490cb-a9b0-49fc-9265-1488ce5f7dfd.png">|
+| --- |
+
+*Show selected orders on a separate page* - custom admin action made with bootstrap cards: 
+|<img width="600" alt="Screenshot 2022-07-28 at 13 24 05" src="https://user-images.githubusercontent.com/94002579/181486920-cfa084e5-5b01-466b-b101-fca365d0a613.png">|
+| --- |
+
+## Task List
+
+- [ ] Replace no-template views with AJAX calls
+- [ ] Enable login with email
+- [ ] Enable social login
+- [ ] Add 'Forgot password' option to login page
+- [ ] Add 'Favourites'
+- [ ] Integrate payment system
+- [ ] Redesign navbar for small screens
+
+## Credits
+
+All rights for logo and images belong to [UE Coffee Roasters](https://uecoffeeroasters.com/).
