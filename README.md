@@ -21,7 +21,7 @@ Website allows to shop as a guest and a registered user. Key features also inclu
 - user profile management
 - automatically generated user avatar (using initials)
 - coupon system
-- order confirmation email
+- order confirmation email (Django SMTP)
 - easy-to-use admin panel
 - responsive web design
 
