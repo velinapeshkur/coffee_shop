@@ -10,7 +10,7 @@ $(document).ready(function(){
                 </ul>',
         trigger: 'focus'
     }
-    );   
+    );
 });
 
 $(document).ready(function(){
@@ -20,5 +20,5 @@ $(document).ready(function(){
         content: '<p class="popoverContent">Enter the same password as before, for verification.</p>',
         trigger: 'focus'
     }
-    );   
+    );
 });

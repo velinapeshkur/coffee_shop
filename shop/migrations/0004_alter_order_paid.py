@@ -6,13 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0003_alter_order_complete'),
+        ("shop", "0003_alter_order_complete"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='order',
-            name='paid',
-            field=models.IntegerField(choices=[(-1, 'Payment on delivery'), (0, 'Awaiting payment'), (1, 'Paid')]),
+            model_name="order",
+            name="paid",
+            field=models.IntegerField(
+                choices=[
+                    (-1, "Payment on delivery"),
+                    (0, "Awaiting payment"),
+                    (1, "Paid"),
+                ]
+            ),
         ),
     ]

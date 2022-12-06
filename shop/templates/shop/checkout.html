@@ -13,7 +13,7 @@
         <!-- Order Forms -->
         <div class="col-7 px-4 order-forms-outer">
             <div class="order-forms-inner">
-                
+
                 <a href="{% url 'cart:cart_detail' %}" id="cart-link">&#8592; Back to cart</a>
 
                 <form method="POST" action="{% url 'shop:create_order' %}" id="order-form">
@@ -24,7 +24,7 @@
                         <h4 class="fw-light pb-2">Contact information</h4>
 
                         {% if not request.user.is_authenticated %}
-                        <p class="py-1">Already have an account? 
+                        <p class="py-1">Already have an account?
                             <a href="#login-modal" role="button" id="login-link" data-bs-toggle="modal" data-target="#LoginModal">Log in</a>
                             to save your order history.</p>
                         {% endif %}
@@ -66,8 +66,8 @@
                 <table class="table-borderless">
                 <h3 class="py-3 fw-light">Your Order:</h3>
                 {% for item in cart %}
-                    {% with product=item.product %}   
-                        {% if item.total_price %}         
+                    {% with product=item.product %}
+                        {% if item.total_price %}
                         <tr class="order-item">
                             <td width="10%"><img src="{{ product.image.url }}"></td>
                             <td width="70%" class="px-3">{{ product.name }}</td>
@@ -78,7 +78,7 @@
                     {% endwith %}
                 {% endfor %}
                 </table>
-           
+
                 <!-- Coupon Form -->
                 <form action="{% url 'coupons:apply' %}" method="post" id="coupon-form">
                     <div class="row my-3">
@@ -93,13 +93,13 @@
                         {% endfor %}
                     {% endif %}
                 </form>
-            
+
                 <!-- Total Price -->
                 <hr class="mt-2">
                 {% if request.session.coupon_id %}
-                    <div class="row coupon-applied">        
+                    <div class="row coupon-applied">
                         <h5 class="col fw-light"><a href="{% url 'coupons:remove' %}" id="remove-coupon">&#x2715</a> {{request.session.coupon_code}} {{request.session.coupon_discount}}% off</h5>
-                    </div> 
+                    </div>
                         <h5 class="col fw-light" style="text-align:right;">Total: ${{cart.get_coupon_price|floatformat:2}}</h5>
                 {% else %}
                     <h5 class="mt-3 fw-light total-price">Total: ${{cart.get_total_price|floatformat:2}}</h5>
@@ -120,7 +120,7 @@
                     {% csrf_token %}
                     <p class="my-1">Username</p>
                     <p class="mb-3">{{ login_form.username }}</p>
-                    <p class="my-1">Password</p> 
+                    <p class="my-1">Password</p>
                     <p class="my-1">{{ login_form.password }} </p>
                 </div>
                 <p class="text-muted mt-3">Don't have an account yet? <a class='ml-2' id="signup-link" href="{% url 'accounts:signup' %}">Sign Up</a></p>
@@ -128,7 +128,7 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancel</button>
           <input type="hidden" name="checkout_login" value="True">
-          <input type="submit" class="btn btn-dark" id="login-button" value="Login"> 
+          <input type="submit" class="btn btn-dark" id="login-button" value="Login">
         </div>
         </form>
       </div>

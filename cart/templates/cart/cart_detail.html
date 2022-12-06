@@ -8,14 +8,14 @@
 
 <div class="container-fluid col-sm-11 col-lg-8 my-3">
     <a href="{% url 'coffees:all_coffees' %}" id="continue-shopping" class="mt-3">&#8592; Continue shopping</a>
-    
+
     {% if cart %}
 
     <h2 class="fw-light py-4 text-center">Cart</h2>
 
     <!-- Cart Items Table -->
     <table class="table mb-4">
-        
+
         <thead>
             <th></th>
             <th>Product</th>
@@ -58,7 +58,7 @@
             {% endwith %}
         {% endfor %}
         </tbody>
-    
+
     </table>
 
     <!-- Total Price -->

@@ -1,7 +1,4 @@
 from coupons.models import Coupon
-from django.utils import timezone
-from django.contrib import messages
-from django.http import HttpRequest
 
 
 def activate_coupon(coupon_id: int) -> None:

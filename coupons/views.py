@@ -1,32 +1,33 @@
-from django.shortcuts import redirect
-from django.views.decorators.http import require_POST
-from django.utils import timezone
-from coupons.models import Coupon
-from coupons.forms import CouponApplyForm
 from django.contrib import messages
+from django.shortcuts import redirect
+from django.utils import timezone
+from django.views.decorators.http import require_POST
+
+from coupons.forms import CouponApplyForm
+from coupons.models import Coupon
 
 # Create your views here.
+
 
 @require_POST
 def coupon_apply(request):
     now = timezone.now()
     form = CouponApplyForm(request.POST)
     if form.is_valid():
-        code = form.cleaned_data['code']
+        code = form.cleaned_data["code"]
         try:
-            coupon = Coupon.objects.get(code__iexact=code,
-                                        valid_from__lte=now,
-                                        valid_to__gte=now,
-                                        active=True)
-            request.session['coupon_id'] = coupon.id
-            request.session['coupon_code'] = coupon.code
-            request.session['coupon_discount'] = coupon.discount
+            coupon = Coupon.objects.get(
+                code__iexact=code, valid_from__lte=now, valid_to__gte=now, active=True
+            )
+            request.session["coupon_id"] = coupon.id
+            request.session["coupon_code"] = coupon.code
+            request.session["coupon_discount"] = coupon.discount
         except Coupon.DoesNotExist:
-            request.session['coupon_id'] = None
+            request.session["coupon_id"] = None
             messages.error(request, "Sorry, this promocode doesn't exist")
-        return redirect('shop:checkout')
+        return redirect("shop:checkout")
 
 
 def coupon_remove(request):
-    request.session['coupon_id'] = None
-    return redirect('shop:checkout')
+    request.session["coupon_id"] = None
+    return redirect("shop:checkout")
