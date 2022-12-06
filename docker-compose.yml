@@ -1,0 +1,42 @@
+version: '3.1'
+
+services:
+  web:
+    restart: always
+    volumes:
+      - .:/code
+    build:
+        dockerfile: Dockerfile
+        context: .
+    ports:
+        - 8000:8000
+    depends_on:
+      - db
+      - broker
+    command: sh ./entrypoint.sh
+
+  db:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${SQL_USER}
+      POSTGRES_PASSWORD: ${SQL_PASSWORD}
+      POSTGRES_DB: shop_db
+
+  # Celery worker
+  worker:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    volumes:
+        - .:/code
+    depends_on:
+      - broker
+    command: sh ./celery_entrypoint.sh
+
+  # RabbitMQ
+  broker:
+    image: rabbitmq:3.10.8
+    ports:
+      - 5672:5672
