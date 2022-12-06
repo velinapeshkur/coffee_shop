@@ -2,29 +2,13 @@ from django.shortcuts import redirect, render
 from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from django.core.mail import send_mail
-from django.conf import settings
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
+from shop.tasks import send_confirmation_email_task
 
 from shop.models import Order, OrderItem
 from cart.cart import Cart
 from shop.forms import ContactInfoForm, ShippingAddressForm, PaymentMethodForm
 from coupons.forms import CouponApplyForm
 from accounts.forms import CustomAuthForm
-
-# Create your views here.
-
-def send_confirmation_email(order):
-    order_items = list(OrderItem.objects.filter(order=order.pk))
-    
-    subject = f'Order #{order.pk} Confirmation'
-    html_message = render_to_string('shop/email_template.html', {'order': order,
-                                                                 'order_items': order_items})
-    message = strip_tags(html_message)
-    from_email = settings.EMAIL_HOST_USER
-    to = order.email
-    return send_mail(subject, message, from_email, [to], html_message=html_message, fail_silently=False)
 
 
 def checkout(request):
@@ -115,8 +99,7 @@ def confirm_order(request, pk):
     for item in order_items:
         item.item.amount -= item.quantity
         item.item.save()
-    order = Order.objects.get(pk=pk)
-    send_confirmation_email(order=order)
+    send_confirmation_email_task.delay(order_pk=pk)
     return render(request, 'shop/order_confirmation.html', context={'order_pk': pk,
                                                                     'order_items': order_items})
 
