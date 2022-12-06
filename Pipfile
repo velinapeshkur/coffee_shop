@@ -14,6 +14,7 @@ avinit = "*"
 argon2-cffi = "*"
 django-celery-results = "*"
 bcrypt = "*"
+pre-commit = "*"
 
 [dev-packages]
 
