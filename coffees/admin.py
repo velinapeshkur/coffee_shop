@@ -2,8 +2,6 @@ from django.contrib import admin
 
 from coffees.models import Categories, Coffee
 
-# Register your models here.
-
 
 class CoffeeAdmin(admin.ModelAdmin):
     list_display = ["name", "amount", "category"]

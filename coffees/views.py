@@ -4,8 +4,6 @@ from django.views.generic import DetailView, ListView
 from cart.forms import CartAddProductForm
 from coffees.models import Categories, Coffee
 
-# Create your views here.
-
 
 class CoffeeDetailView(DetailView):
     model = Coffee
@@ -23,7 +21,7 @@ class CoffeeListView(ListView):
         return Coffee.objects.all()
 
 
-def list_by_category(request, pk):
+def list_by_category_view(request, pk):
     category = get_object_or_404(Categories, pk=pk)
     return render(
         request,
