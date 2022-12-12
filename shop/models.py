@@ -1,10 +1,9 @@
+from django.conf import settings
 from django.db import models
-from coffees.models import Coffee
 from django_countries.fields import CountryField
-from django.contrib.auth.models import User as auth_User
 
+from coffees.models import Coffee
 
-# Create your models here.
 
 class ShippingAddress(models.Model):
     address = models.CharField(max_length=256)
@@ -18,27 +17,26 @@ class ShippingAddress(models.Model):
 
 
 class Order(models.Model):
-    DELIVERY_PAYMENT = -1
-    AWAITING_PAYMENT = 0
-    PAID = 1
-    
-    PAYMENT_OPTIONS = (
-        (DELIVERY_PAYMENT, 'Payment on delivery'),
-        (AWAITING_PAYMENT, 'Awaiting payment'),
-        (PAID, 'Paid'),
+    class Payment(models.TextChoices):
+        DELIVERY_PAYMENT = ("Payment on delivery",)
+        AWAITING_PAYMENT = ("Awaiting payment",)
+        PAID = "Paid"
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True
     )
-    
-    user = models.ForeignKey(auth_User, on_delete=models.SET_NULL, null=True, blank=True)
     first_name = models.CharField(max_length=200, null=True)
     last_name = models.CharField(max_length=200, null=True)
     email = models.EmailField(max_length=200, null=True)
-    address = models.ForeignKey(ShippingAddress, to_field='id', on_delete=models.SET_NULL, null=True)
+    address = models.ForeignKey(
+        ShippingAddress, to_field="id", on_delete=models.SET_NULL, null=True
+    )
     date_ordered = models.DateTimeField(auto_now_add=True)
     total_price = models.FloatField(null=True)
-    payment = models.IntegerField(choices=PAYMENT_OPTIONS)
+    payment = models.CharField(choices=Payment.choices, max_length=20)
     complete = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=200)
-    
+
     def __str__(self):
         return str(self.pk)
 
@@ -49,6 +47,6 @@ class OrderItem(models.Model):
     quantity = models.IntegerField()
     date_added = models.DateTimeField(auto_now_add=True)
     cost = models.FloatField(null=True)
-    
+
     def __str__(self):
-        return f'order {self.order}'
+        return f"order {self.order}"

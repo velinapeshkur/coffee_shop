@@ -1,18 +1,18 @@
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView
-from coffees.models import Coffee, Categories
-from cart.forms import CartAddProductForm
 
-# Create your views here.
+from cart.forms import CartAddProductForm
+from coffees.models import Categories, Coffee
+
 
 class CoffeeDetailView(DetailView):
     model = Coffee
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['cart_add_form'] = CartAddProductForm()
+        context["cart_add_form"] = CartAddProductForm()
         return context
-    
+
 
 class CoffeeListView(ListView):
     model = Coffee
@@ -21,8 +21,14 @@ class CoffeeListView(ListView):
         return Coffee.objects.all()
 
 
-def list_by_category(request, pk):
+def list_by_category_view(request, pk):
     category = get_object_or_404(Categories, pk=pk)
-    return render(request, 'coffees/coffee_list.html', {'coffee_list': Coffee.objects.filter(category=category),
-                                                        'category_name': category.category_name,
-                                                        'category_pk': pk})
+    return render(
+        request,
+        "coffees/coffee_list.html",
+        {
+            "coffee_list": Coffee.objects.filter(category=category),
+            "category_name": category.category_name,
+            "category_pk": pk,
+        },
+    )

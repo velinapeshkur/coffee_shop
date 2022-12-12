@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+django-countries = "*"
+pillow = "*"
+python-dotenv = "*"
+psycopg2-binary = "*"
+celery = "*"
+avinit = "*"
+argon2-cffi = "*"
+django-celery-results = "*"
+bcrypt = "*"
+pre-commit = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"

@@ -7,7 +7,7 @@
             <a href="{% url 'coffees:coffee_detail' pk=coffee.pk %}">{{coffee.name}}</a>
         </li>
         {% endfor %}
-        
+
         {% elif search_text %}
         <li class="list-group-item" id="search-no-results">No results</li>
     </ul>

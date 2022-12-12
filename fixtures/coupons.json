@@ -1,0 +1,1 @@
+[{"model": "coupons.coupon", "pk": 1, "fields": {"code": "FIRSTBUY", "valid_from": "2022-07-13T11:26:10Z", "valid_to": "2022-12-31T00:00:00Z", "discount": 20, "active": true}}, {"model": "coupons.coupon", "pk": 2, "fields": {"code": "COSTARICA", "valid_from": "2022-07-13T11:27:37Z", "valid_to": "2023-01-30T00:00:00Z", "discount": 10, "active": true}}]

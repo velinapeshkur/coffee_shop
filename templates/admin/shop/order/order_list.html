@@ -18,7 +18,7 @@
             <h3>Order #{{order.pk}}
                 {% if order.complete %}
                 <button class="btn btn-default disabled" id="completed">Completed</button>
-                {% elif order.payment == 0 %}
+                {% elif order.payment == "Awaiting payment" %}
                 <button class="btn btn-default disabled" id="awaiting-payment">Awaiting Payment</button>
                 {% endif %}
             </h3>
@@ -41,7 +41,7 @@
                     </tr>
                 {% endfor %}
                 </table>
-            
+
         </div>
         {% endfor %}
     </div>

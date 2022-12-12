@@ -13,7 +13,7 @@
             <img src={{product.image.url}}>
         {% endwith %}
     {% endfor %}
-    
+
     <h1 class="mt-5 mb-3">Thank you for your order!</h1>
     <h4 class="fw-light mb-5">Your order number is {{order_pk}}</h4>
     <a href="{% url 'coffees:all_coffees' %}" id="shopping-link">&#8592; Back to shopping</a>
