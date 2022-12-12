@@ -64,9 +64,10 @@ class ShippingAddressForm(forms.ModelForm):
 
 
 class PaymentMethodForm(forms.Form):
+
     PaymentChoices = (
-        ("Online", "Pay Online"),
-        ("COD", "Pay on delivery"),
+        (0, "Pay Online"),
+        (1, "Pay on delivery"),
     )
 
     payment = forms.ChoiceField(

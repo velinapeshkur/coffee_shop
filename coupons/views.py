@@ -1,8 +1,8 @@
 from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
 
-from coupons.forms import CouponApplyForm
 from coupons import services
+from coupons.forms import CouponApplyForm
 
 
 @require_POST

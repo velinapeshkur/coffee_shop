@@ -3,7 +3,7 @@ from django.contrib.auth.forms import (AuthenticationForm, PasswordChangeForm,
                                        UserChangeForm, UserCreationForm)
 from django.contrib.auth.models import User as auth_User
 
-from accounts.models import CustomUser
+from accounts.models import User
 
 
 class ProfileCreateForm(UserCreationForm):
@@ -43,7 +43,7 @@ class ProfileCreateForm(UserCreationForm):
     )
 
     class Meta:
-        model = CustomUser
+        model = User
         fields = (
             "username",
             "first_name",
@@ -72,7 +72,7 @@ class CustomAuthForm(AuthenticationForm):
     )
 
     class Meta:
-        model = CustomUser
+        model = User
 
 
 class ProfileUpdateForm(UserChangeForm):
@@ -100,7 +100,7 @@ class ProfileUpdateForm(UserChangeForm):
     )
 
     class Meta:
-        model = CustomUser
+        model = User
         fields = ("username", "first_name", "last_name", "email")
 
 

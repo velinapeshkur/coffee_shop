@@ -1,7 +1,8 @@
-from coupons.models import Coupon
-from django.http import HttpRequest
 from django.contrib import messages
+from django.http import HttpRequest
 from django.utils import timezone
+
+from coupons.models import Coupon
 
 
 def activate_coupon(coupon_id: int) -> None:
@@ -24,16 +25,13 @@ def deactivate_coupon(coupon_id: int) -> None:
 
 def save_coupon_in_session(request: HttpRequest, code: str) -> None:
     """
-    Saves coupon data in session or diaplays error message, 
+    Saves coupon data in session or diaplays error message,
     if coupon doesn't exist.
     """
     now = timezone.now()
     try:
         coupon = Coupon.objects.get(
-            code__iexact=code, 
-            valid_from__lte=now, 
-            valid_to__gte=now,
-            active=True
+            code__iexact=code, valid_from__lte=now, valid_to__gte=now, active=True
         )
         request.session["coupon_id"] = coupon.pk
         request.session["coupon_code"] = coupon.code

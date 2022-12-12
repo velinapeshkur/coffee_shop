@@ -1,6 +1,5 @@
-import avinit
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import PasswordChangeView
@@ -9,42 +8,12 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, UpdateView
 
-from . import forms, models
+from accounts import forms, services
+from accounts.models import User
 
 
-# Generate user avatar
-def get_avatar(request, user):
-    avatar_colors = [
-        "#F8BB05",
-    ]
-    avatar_options = {
-        "width": "42",
-        "height": "42",
-        "radius": "21",
-        "font-size": "15",
-        "font-weight": "bold",
-    }
-    large_avatar_options = {
-        "width": "120",
-        "height": "120",
-        "radius": "60",
-        "font-size": "45",
-        "font-weight": "bold",
-    }
-    request.session["avatar"] = avinit.get_svg_avatar(
-        user.get_full_name(), colors=avatar_colors, **avatar_options
-    )
-    request.session["large_avatar"] = avinit.get_svg_avatar(
-        user.get_full_name(), colors=avatar_colors, **large_avatar_options
-    )
-
-
-def logout_check(user):
-    return user.is_anonymous
-
-
-@user_passes_test(logout_check, login_url="/access_denied/")
-def sign_up(request):
+@user_passes_test(services.logout_check, login_url="/access_denied/")
+def signup_view(request):
     form = forms.ProfileCreateForm()
 
     if request.method == "POST":
@@ -54,13 +23,13 @@ def sign_up(request):
             user = form.save()
             user.save()
             login(request, user, backend="django.contrib.auth.backends.ModelBackend")
-            get_avatar(request=request, user=user)
+            services.get_user_avatar(request, full_name=user.get_full_name())
             return redirect("home")
 
     return render(request, "accounts/signup.html", {"form": form})
 
 
-@user_passes_test(logout_check, login_url="/access_denied/")
+@user_passes_test(services.logout_check, login_url="/access_denied/")
 def login_view(request):
     form = forms.CustomAuthForm()
 
@@ -68,31 +37,30 @@ def login_view(request):
         form = forms.CustomAuthForm(request=request, data=request.POST)
 
         if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            checkout_login = form.cleaned_data.get("checkout_login")
-            user = authenticate(username=username, password=password)
+            login_data = form.cleaned_data
+            services.user_login(login_data)
 
-            if user is not None:
-                login(
-                    request, user, backend="django.contrib.auth.backends.ModelBackend"
-                )
-                get_avatar(request=request, user=user)
+            checkout_login = login_data.get(
+                "checkout_login"
+            )  # Checks if user was logged in from checkout page
+            if checkout_login:
+                return redirect("shop:checkout")
 
-                if checkout_login:
-                    return redirect("shop:checkout")
-                return redirect("home")
+            return redirect("home")
 
     return render(request, "accounts/login.html", {"form": form})
 
 
 class UpdateProfileView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
-    model = models.CustomUser
+    model = User
     template_name = "accounts/profile_update.html"
     form_class = forms.ProfileUpdateForm
 
-    # Checks if user is accessing their own profile page
     def test_func(self):
+        """
+        Checks if user is accessing their own page.
+        Test function for UserPassesTestMixin.
+        """
         return self.kwargs["pk"] == self.request.user.pk
 
     def handle_no_permission(self):
@@ -100,7 +68,7 @@ class UpdateProfileView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        get_avatar(request=request, user=self.object)
+        services.get_user_avatar(request=request, full_name=self.object.get_full_name())
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -123,7 +91,7 @@ class UpdateProfileView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
 
 
 class DeleteProfileView(LoginRequiredMixin, DeleteView):
-    model = models.CustomUser
+    model = User
     success_url = reverse_lazy("home")
 
     def get(self, *args, **kwargs):

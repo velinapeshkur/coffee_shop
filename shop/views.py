@@ -5,13 +5,15 @@ from django.views.generic import ListView
 from accounts.forms import CustomAuthForm
 from cart.cart import Cart
 from coupons.forms import CouponApplyForm
+from shop import services
 from shop.forms import ContactInfoForm, PaymentMethodForm, ShippingAddressForm
 from shop.models import Order, OrderItem
 from shop.tasks import send_confirmation_email_task
 
 
-def checkout(request):
+def checkout_view(request):
     cart = Cart(request)
+
     if len(cart) == 0:
         return redirect("access_denied")
 
@@ -35,59 +37,25 @@ def checkout(request):
     )
 
 
-def create_order(request):
+def create_order_view(request):
 
     if request.method == "POST":
         contact_form = ContactInfoForm(request.POST)
         address_form = ShippingAddressForm(request.POST)
         payment_form = PaymentMethodForm(request.POST)
-        cart = Cart(request)
 
         if (
             contact_form.is_valid()
             and address_form.is_valid()
             and payment_form.is_valid()
         ):
-            order = contact_form.save(commit=False)
+            order = services.CreateOrder(
+                contact_form, address_form, payment_form
+            ).create_order(request)
 
-            # Add user if authenticated
-            if request.user.is_authenticated:
-                order.user = request.user
-
-            # Address
-            address = address_form.save()
-            order.address = address
-
-            # Calculate total price
-            if "coupon_id" in request.session and request.session["coupon_id"]:
-                order.total_price = cart.get_coupon_price()
-            else:
-                order.total_price = cart.get_total_price()
-
-            # Save payment method
             payment_method = payment_form.cleaned_data.get("payment")
-            if payment_method == "Online":
-                order.payment = Order.AWAITING_PAYMENT
-                order.save()
-            else:
-                order.payment = Order.DELIVERY_PAYMENT
-                order.save()
 
-            # Saving order items
-            for item in cart:
-                if item["price"] != 0:
-                    order_item = OrderItem(
-                        item=item["product"],
-                        order=order,
-                        quantity=item["quantity"],
-                        cost=item["total_price"],
-                    )
-                    order_item.save()
-
-            request.session["coupon_id"] = None
-            cart.clear()
-
-            if payment_method == "Online":
+            if int(payment_method) == 0:
                 return redirect("shop:payment", pk=order.pk)
 
             return redirect("shop:confirm_order", pk=order.pk)
@@ -100,16 +68,13 @@ def payment_view(request, pk):
     return render(request, "shop/payment.html", {"order_pk": pk})
 
 
-# Marks order as paid
-def paid(request, pk):
-    order = Order.objects.get(pk=pk)
-    order.payment = Order.PAID
-    order.save()
+def mark_order_as_paid_view(request, pk):
+    services.mark_order_as_paid(order_pk=pk)
     return redirect("shop:confirm_order", pk=pk)
 
 
-def confirm_order(request, pk):
-    order_items = OrderItem.objects.filter(order=pk)
+def confirm_order_view(request, pk):
+    order_items = OrderItem.objects.filter(order=pk).select_related("item")
     for item in order_items:
         item.item.amount -= item.quantity
         item.item.save()
