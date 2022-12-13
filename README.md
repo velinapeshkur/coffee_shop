@@ -20,7 +20,7 @@ Website allows to shop as a guest and a registered user. Key features also inclu
 - displaying order history
 - user profile management
 - automatically generated user avatar (using initials)
-- coupon system
+- coupon management via Celery scheduled tasks
 - order confirmation email (Django SMTP)
 - easy-to-use admin panel
 - responsive web design
@@ -33,52 +33,30 @@ $ git clone https://github.com/velinapeshkur/coffee_shop.git
 $ cd coffee_shop
 ```
 
-- Create a virtual environment to install dependencies in and activate it:
-```sh
-$ pip install virtualenv
-$ virtualenv venv
-$ source venv/bin/activate
-```
-
-- Install the dependencies:
-```sh
-(venv)$ pip install -r requirements.txt
-```
-
 - Generate a Django Secret Key at https://djecrety.ir/
 
 - Copy .env file for handling environment variables:
 ```sh
-(venv)$ cd coffee_shop
-(venv)$ cp .env.example .env
+$ cp .env.example .env
 ```
+
 - Edit .env file manually by adding custom variables.
 
 &#x2757; Note: To use gmail in Django project, you need to turn on 2-step verification and generate an app password.
 For more info, please visit Google Help Center page: https://support.google.com/accounts/answer/185833?hl=en
 
-- Make initial migrations:
+- Run Docker Compose file (make sure you have Docker installed and running):
 ```sh
-(venv)$ cd ..
-(venv)$ python manage.py migrate
+$ docker compose up
 ```
 
-- Collect static files:
+- Navigate to http://0.0.0.0:8000/
+
+- Use fixtures to load some db data for testing or demo:
 ```sh
-(venv)$ python manage.py collectstatic
+$ docker exec coffee_shop-web-1 python manage.py loaddata fixtures/*.json
 ```
 
-- Create a superuser to access admin features:
-```sh
-(venv)$ python manage.py createsuperuser
-```
-
-- Run the server locally:
-```sh
-(venv)$ python manage.py runserver
-```
-
-- Navigate to http://127.0.0.1:8000/
 
 ## Website Demo
 
@@ -173,6 +151,10 @@ Manage orders by using admin list actions:
 
 ## Task List
 
+- [x] Dockerize project
+- [x] Connect postgres
+- [x] Add Celery for async and scheduled tasks
+- [ ] Add tests 
 - [ ] Replace no-template views with AJAX calls
 - [ ] Enable login with email
 - [ ] Enable social login
